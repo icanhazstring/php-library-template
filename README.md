@@ -1,2 +1,2 @@
-# php-libray-template
+# php-library-template
 Template for php libraries
