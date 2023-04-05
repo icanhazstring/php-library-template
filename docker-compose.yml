@@ -1,32 +1,19 @@
-version: "3.7"
-
+version: "3.4"
 services:
-  php7.1:
-    build: .docker/php7.1
-    container_name: php7.1
-    volumes:
-      - .:/docker:rw
-    tty: true
+  mysql:
+    image: "mysql:8.0"
     environment:
-      - PHP_IDE_CONFIG=serverName=php-dev
-      - XDEBUG_CONFIG="idekey=PHPSTORM remote_host=172.17.0.1 remote_port=9001"
-
-  php7.2:
-    build: .docker/php7.2
-    container_name: php7.2
-    volumes:
-      - .:/docker:rw
-    tty: true
-    environment:
-      - PHP_IDE_CONFIG=serverName=php-dev
-      - XDEBUG_CONFIG="idekey=PHPSTORM remote_host=172.17.0.1 remote_port=9001"
-
-  php7.3:
-    build: .docker/php7.3
-    container_name: php7.3
-    volumes:
-      - .:/docker:rw
-    tty: true
-    environment:
-      - PHP_IDE_CONFIG=serverName=php-dev
-      - XDEBUG_CONFIG="idekey=PHPSTORM remote_host=172.17.0.1 remote_port=9001"
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: integration_test
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: changeme
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: "2s" # Interval between health checks.
+      timeout: "2s" # Timeout for each health checking.
+      retries: 10 # Hou many times retries.
+      start_period: "2s"
+    tmpfs:
+      - /var/lib/mysql
+    ports:
+      - "3306:3306"

@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "andreas-weber/php-junit-merge": "^1.0"
+    }
+}
